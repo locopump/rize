@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function () {
+    Route::group(['prefix' => 'administracion', 'namespace' => 'Administracion'], function () {
+        Route::group(['prefix' => 'general', 'namespace' => 'General'], function () {
+            // Modalidad Transporte
+            Route::get('areas/{id?}', 'AreasController@getAreas');
+            Route::delete('areas/delete/{id}', 'AreasController@deleteArea');
+        });
+    });
+});
