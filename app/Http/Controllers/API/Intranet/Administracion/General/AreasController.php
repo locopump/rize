@@ -30,4 +30,15 @@ class AreasController extends Controller
         $area = $this->areas->delete($request->route('id'));
         return $area;
     }
+
+    public function getAreasDetail(Request $request)
+    {
+        $area = (
+        $request->route('id') ?
+            $this->areas->getRowDetails($request->route('id')) :
+            $this->areas->getAllDetails()
+        );
+        return $area;
+    }
+
 }

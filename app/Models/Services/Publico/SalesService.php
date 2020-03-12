@@ -3,22 +3,23 @@
 
 namespace App\Models\Services\Publico;
 
-use App\Models\Repositories\Publico\Areas\AreasInterface;
+use App\Models\Repositories\Publico\Sales\SalesInterface;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\CustomException;
 
 
-class AreasService
+class SalesService
 
 {
     protected $client;
-    protected $areas;
+    protected $sales;
 
-    public function __construct(AreasInterface $areas)
+    public function __construct(SalesInterface $sales)
     {
-        $this->areas = $areas;
+        $this->sales = $sales;
     }
 
 
@@ -37,13 +38,13 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $areas = $this->areas->getAll();
+            $sales = $this->sales->getAll();
 
-            if ($areas) {
+            if ($sales) {
                 $code = 200;
                 $response = [
                     'success' => true,
-                    'data' => $areas,
+                    'data' => $sales,
                     'message' => 'Success.',
                     'code' => $code
                 ];
@@ -73,7 +74,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Listado de las Areas',
+            Log::critical('Listado de las Sales',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -86,7 +87,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Listado de las Areas',
+            Log::alert('Listado de las Sales',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
@@ -102,13 +103,13 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $areas = $this->areas->getRow($id);
+            $sales = $this->sales->getRow($id);
 
-            if ( !empty($areas) ) {
+            if ( !empty($sales) ) {
                 $code = 200;
                 $response = [
                     'success' => true,
-                    'data' => $areas,
+                    'data' => $sales,
                     'message' => 'Success.',
                     'code' => $code
                 ];
@@ -138,7 +139,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Listado de las Areas',
+            Log::critical('Listado de las Sales',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -151,7 +152,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Listado de las Areas',
+            Log::alert('Listado de las Sales',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
@@ -166,7 +167,7 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $affected_rows = $this->areas->delete($id);
+            $affected_rows = $this->sales->delete($id);
 
             if ($affected_rows > 0) {
                 $code = 200;
@@ -201,7 +202,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Delete Row - Areas',
+            Log::critical('Delete Row - Sales',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -214,14 +215,14 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Delete Row - Areas',
+            Log::alert('Delete Row - Sales',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
         return response()->json($response, $code, $headers);
     }
 
-    public function getAllDetails()
+    public function getVentasModulo()
     {
         $response['status'] = 0;
         $response['message'] = '';
@@ -230,13 +231,13 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $areas = $this->areas->getAllDetails();
+            $ventas = $this->sales->getVentasModulo();
 
-            if ($areas) {
+            if ($ventas) {
                 $code = 200;
                 $response = [
                     'success' => true,
-                    'data' => $areas,
+                    'data' => $ventas,
                     'message' => 'Success.',
                     'code' => $code
                 ];
@@ -266,7 +267,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Listado de las Areas',
+            Log::critical('Listado de las Ventas por Módulo',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -279,14 +280,14 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Listado de las Areas',
+            Log::alert('Listado de las Ventas por Módulo',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
         return response()->json($response, $code, $headers);
     }
 
-    public function getRowDetails($id)
+    public function getVentasFecha(array $rango = null)
     {
         $response['status'] = 0;
         $response['message'] = '';
@@ -295,13 +296,23 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $areas = $this->areas->getRowDetails($id);
+            $sales = $this->sales->getVentasFecha();
+            if ( isset($rango) && $rango != null ) {
+                $ventasFecha = ($rango['fecha_ini'] == $rango['fecha_fin']) ?
+                    $sales->where(DB::raw('date(date)'), $rango['fecha_ini']) :
+                    $sales->whereBetween(DB::raw('date(date)'), [$rango['fecha_ini'], $rango['fecha_fin']])
 
-            if ($areas) {
+                ;
+            } else {
+                $ventasFecha = $this->sales->getVentasFecha();
+            }
+            $ventasFecha = $ventasFecha->get();
+
+            if ($ventasFecha) {
                 $code = 200;
                 $response = [
                     'success' => true,
-                    'data' => $areas,
+                    'data' => $ventasFecha,
                     'message' => 'Success.',
                     'code' => $code
                 ];
@@ -331,7 +342,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Listado de las Areas por Id',
+            Log::critical('Listado de las Ventas por Módulo',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -344,7 +355,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Listado de las Areas por Id',
+            Log::alert('Listado de las Ventas por Módulo',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 

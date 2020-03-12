@@ -3,22 +3,22 @@
 
 namespace App\Models\Services\Publico;
 
-use App\Models\Repositories\Publico\Areas\AreasInterface;
+use App\Models\Repositories\Publico\Counts\CountsInterface;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\CustomException;
 
 
-class AreasService
+class CountsService
 
 {
     protected $client;
-    protected $areas;
+    protected $counts;
 
-    public function __construct(AreasInterface $areas)
+    public function __construct(CountsInterface $counts)
     {
-        $this->areas = $areas;
+        $this->counts = $counts;
     }
 
 
@@ -37,13 +37,13 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $areas = $this->areas->getAll();
+            $counts = $this->counts->getAll();
 
-            if ($areas) {
+            if ($counts) {
                 $code = 200;
                 $response = [
                     'success' => true,
-                    'data' => $areas,
+                    'data' => $counts,
                     'message' => 'Success.',
                     'code' => $code
                 ];
@@ -73,7 +73,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Listado de las Areas',
+            Log::critical('Listado de las Counts',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -86,7 +86,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Listado de las Areas',
+            Log::alert('Listado de las Counts',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
@@ -102,13 +102,13 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $areas = $this->areas->getRow($id);
+            $counts = $this->counts->getRow($id);
 
-            if ( !empty($areas) ) {
+            if ( !empty($counts) ) {
                 $code = 200;
                 $response = [
                     'success' => true,
-                    'data' => $areas,
+                    'data' => $counts,
                     'message' => 'Success.',
                     'code' => $code
                 ];
@@ -138,7 +138,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Listado de las Areas',
+            Log::critical('Listado de las Counts',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -151,7 +151,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Listado de las Areas',
+            Log::alert('Listado de las Counts',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
@@ -166,7 +166,7 @@ class AreasService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $affected_rows = $this->areas->delete($id);
+            $affected_rows = $this->counts->delete($id);
 
             if ($affected_rows > 0) {
                 $code = 200;
@@ -201,7 +201,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::critical('Delete Row - Areas',
+            Log::critical('Delete Row - Counts',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
@@ -214,137 +214,7 @@ class AreasService
                 'message' => '¡ERROR! contact with support.',
                 'code' => $code
             ];
-            Log::alert('Delete Row - Areas',
-                ['request' => $response, 'exception' => $e->getMessage()]);
-        }
-
-        return response()->json($response, $code, $headers);
-    }
-
-    public function getAllDetails()
-    {
-        $response['status'] = 0;
-        $response['message'] = '';
-        $response['records'] = [];
-        $code = 400;
-        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
-
-        try {
-            $areas = $this->areas->getAllDetails();
-
-            if ($areas) {
-                $code = 200;
-                $response = [
-                    'success' => true,
-                    'data' => $areas,
-                    'message' => 'Success.',
-                    'code' => $code
-                ];
-
-            } else {
-                $code = 202;
-                $response = [
-                    'success' => false,
-                    'error' =>
-                        [
-                            'type' => 'Query',
-                            'description' => null
-                        ],
-                    'message' => 'Error detected!!',
-                    'code' => $code
-                ];
-            }
-
-        } catch (QueryException $e) {
-            $response = [
-                'success' => false,
-                'error' =>
-                    [
-                        'type' => 'Query',
-                        'description' => null
-                    ],
-                'message' => '¡ERROR! contact with support.',
-                'code' => $code
-            ];
-            Log::critical('Listado de las Areas',
-                ['request' => $response, 'exception' => $e->getMessage()]);
-        } catch (Exception $e) {
-            $response = [
-                'success' => false,
-                'error' =>
-                    [
-                        'type' => 'Code',
-                        'description' => null
-                    ],
-                'message' => '¡ERROR! contact with support.',
-                'code' => $code
-            ];
-            Log::alert('Listado de las Areas',
-                ['request' => $response, 'exception' => $e->getMessage()]);
-        }
-
-        return response()->json($response, $code, $headers);
-    }
-
-    public function getRowDetails($id)
-    {
-        $response['status'] = 0;
-        $response['message'] = '';
-        $response['records'] = [];
-        $code = 400;
-        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
-
-        try {
-            $areas = $this->areas->getRowDetails($id);
-
-            if ($areas) {
-                $code = 200;
-                $response = [
-                    'success' => true,
-                    'data' => $areas,
-                    'message' => 'Success.',
-                    'code' => $code
-                ];
-
-            } else {
-                $code = 202;
-                $response = [
-                    'success' => false,
-                    'error' =>
-                        [
-                            'type' => 'Query',
-                            'description' => null
-                        ],
-                    'message' => 'Error detected!!',
-                    'code' => $code
-                ];
-            }
-
-        } catch (QueryException $e) {
-            $response = [
-                'success' => false,
-                'error' =>
-                    [
-                        'type' => 'Query',
-                        'description' => null
-                    ],
-                'message' => '¡ERROR! contact with support.',
-                'code' => $code
-            ];
-            Log::critical('Listado de las Areas por Id',
-                ['request' => $response, 'exception' => $e->getMessage()]);
-        } catch (Exception $e) {
-            $response = [
-                'success' => false,
-                'error' =>
-                    [
-                        'type' => 'Code',
-                        'description' => null
-                    ],
-                'message' => '¡ERROR! contact with support.',
-                'code' => $code
-            ];
-            Log::alert('Listado de las Areas por Id',
+            Log::alert('Delete Row - Counts',
                 ['request' => $response, 'exception' => $e->getMessage()]);
         }
 

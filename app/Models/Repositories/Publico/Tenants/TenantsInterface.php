@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Models\Repositories\Publico\Areas;
+namespace App\Models\Repositories\Publico\Tenants;
 
 
-interface AreasInterface
+interface TenantsInterface
 {
     /**
      * @param array $data
@@ -39,10 +39,5 @@ interface AreasInterface
     /**
      * @return mixed
      */
-    public function getAllDetails();
-
-    /**
-     * @return mixed
-     */
-    public function getRowDetails($id);
+    public function getLocatariosCategoria();
 }

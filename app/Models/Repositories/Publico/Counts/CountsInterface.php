@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Models\Repositories\Publico\Areas;
+namespace App\Models\Repositories\Publico\Counts;
 
 
-interface AreasInterface
+interface CountsInterface
 {
     /**
      * @param array $data
@@ -35,14 +35,4 @@ interface AreasInterface
      * @return mixed
      */
     public function delete(int $id);
-
-    /**
-     * @return mixed
-     */
-    public function getAllDetails();
-
-    /**
-     * @return mixed
-     */
-    public function getRowDetails($id);
 }
