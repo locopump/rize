@@ -26,13 +26,13 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
             Route::delete('areas/delete/{id}', 'AreasController@deleteArea');
             // Counts
             Route::get('counts/{id?}', 'CountsController@getCounts');
-            Route::delete('counts/delete/{id}', 'CountsController@deleteCount');
+//            Route::delete('counts/delete/{id}', 'CountsController@deleteCount');
             // Likes
             Route::get('likes/{id?}', 'LikesController@getLikes');
-            Route::delete('likes/delete/{id}', 'LikesController@deleteLike');
+//            Route::delete('likes/delete/{id}', 'LikesController@deleteLike');
             // Pages
             Route::get('pages/{id?}', 'PagesController@getPages');
-            Route::delete('pages/delete/{id}', 'PagesController@deletePage');
+//            Route::delete('pages/delete/{id}', 'PagesController@deletePage');
             // Sales
 //            Route::get('sales/{id?}', 'SalesController@getSales');
 //            Route::delete('sales/delete/{id}', 'SalesController@deleteSale');
@@ -40,20 +40,20 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
             Route::post('sales/ventas-filtro/fecha/', 'SalesController@getVentasFecha');
             // SsTenants
             Route::get('sstenants/{id?}', 'SsTenantsController@getSsTenants');
-            Route::delete('sstenants/delete/{id}', 'SsTenantsController@deleteSsTenant');
+//            Route::delete('sstenants/delete/{id}', 'SsTenantsController@deleteSsTenant');
             // Tenants
 //            Route::get('tenants/{id?}', 'TenantsController@getTenants');
 //            Route::delete('tenants/delete/{id}', 'TenantsController@deleteTenant');
             Route::get('tenants/categories', 'TenantsController@getLocatariosCategoria');
             // Venues
             Route::get('venues/{id?}', 'VenuesController@getVenues');
-            Route::delete('venues/delete/{id}', 'VenuesController@deleteVenue');
+//            Route::delete('venues/delete/{id}', 'VenuesController@deleteVenue');
             // Visitors
             Route::get('visitors/{id?}', 'VisitorsController@getVisitors');
-            Route::delete('visitors/delete/{id}', 'VisitorsController@deleteVisitor');
+//            Route::delete('visitors/delete/{id}', 'VisitorsController@deleteVisitor');
             // Visits
             Route::get('visits/{id?}', 'VisitsController@getVisits');
-            Route::delete('visits/delete/{id}', 'VisitsController@deleteVisit');
+//            Route::delete('visits/delete/{id}', 'VisitsController@deleteVisit');
         });
     });
 });
