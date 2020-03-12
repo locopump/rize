@@ -39,5 +39,10 @@ interface TenantsInterface
     /**
      * @return mixed
      */
-    public function getLocatariosCategoria();
+    public function getAllLocatariosCategoria();
+
+    /**
+     * @return mixed
+     */
+    public function getLocatariosCategoria($category);
 }

@@ -44,12 +44,25 @@ class TenantsRepository implements TenantsInterface
      * METODOS MIXTOS
      */
 
-    public function getLocatariosCategoria()
+    public function getAllLocatariosCategoria()
     {
         $categories = Tenants::select(
             'category as categoria',
             DB::raw('count(brand) total_marcas')
         )
+            ->groupBy('category')
+            ->orderBy('category', 'asc')
+            ->get();
+        return $categories;
+    }
+
+    public function getLocatariosCategoria($category)
+    {
+        $categories = Tenants::select(
+            'category as categoria',
+            DB::raw('count(brand) total_marcas')
+        )
+            ->where('category', $category)
             ->groupBy('category')
             ->orderBy('category', 'asc')
             ->get();

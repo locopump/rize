@@ -44,7 +44,7 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
             // Tenants
 //            Route::get('tenants/{id?}', 'TenantsController@getTenants');
 //            Route::delete('tenants/delete/{id}', 'TenantsController@deleteTenant');
-            Route::get('tenants/categories', 'TenantsController@getLocatariosCategoria');
+            Route::get('tenants/categories/{category?}', 'TenantsController@getLocatariosCategoria');
             // Venues
             Route::get('venues/{id?}', 'VenuesController@getVenues');
 //            Route::delete('venues/delete/{id}', 'VenuesController@deleteVenue');

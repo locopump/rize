@@ -31,9 +31,13 @@ class TenantsController extends Controller
         return $tenant;
     }
 
-    public function getLocatariosCategoria()
+    public function getLocatariosCategoria(Request $request)
     {
-        $tenants = $this->tenants->getLocatariosCategoria();
+        $tenants = (
+        $request->route('category') ?
+            $this->tenants->getLocatariosCategoria($request->route('category')) :
+            $this->tenants->getAllLocatariosCategoria()
+        );
         return $tenants;
     }
 }

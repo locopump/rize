@@ -221,7 +221,7 @@ class TenantsService
         return response()->json($response, $code, $headers);
     }
 
-    public function getLocatariosCategoria()
+    public function getAllLocatariosCategoria()
     {
         $response['status'] = 0;
         $response['message'] = '';
@@ -230,7 +230,72 @@ class TenantsService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $categories = $this->tenants->getLocatariosCategoria();
+            $categories = $this->tenants->getAllLocatariosCategoria();
+
+            if ($categories) {
+                $code = 200;
+                $response = [
+                    'success' => true,
+                    'data' => $categories,
+                    'message' => 'Success.',
+                    'code' => $code
+                ];
+
+            } else {
+                $code = 202;
+                $response = [
+                    'success' => false,
+                    'error' =>
+                        [
+                            'type' => 'Query',
+                            'description' => null
+                        ],
+                    'message' => 'Error detected!!',
+                    'code' => $code
+                ];
+            }
+
+        } catch (QueryException $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Query',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::critical('Listado de las Tenants',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Code',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::alert('Listado de las Tenants',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        }
+
+        return response()->json($response, $code, $headers);
+    }
+
+    public function getLocatariosCategoria($category)
+    {
+        $response['status'] = 0;
+        $response['message'] = '';
+        $response['records'] = [];
+        $code = 400;
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
+
+        try {
+            $categories = $this->tenants->getLocatariosCategoria($category);
 
             if ($categories) {
                 $code = 200;
