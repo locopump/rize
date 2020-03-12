@@ -36,7 +36,7 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
             // Sales
 //            Route::get('sales/{id?}', 'SalesController@getSales');
 //            Route::delete('sales/delete/{id}', 'SalesController@deleteSale');
-            Route::get('sales/ventas-modulo/list', 'SalesController@getVentasModulo');
+            Route::get('sales/ventas-modulo/list/{ss_tenant_name?}', 'SalesController@getVentasModulo');
             Route::post('sales/ventas-filtro/fecha/', 'SalesController@getVentasFecha');
             // SsTenants
             Route::get('sstenants/{id?}', 'SsTenantsController@getSsTenants');

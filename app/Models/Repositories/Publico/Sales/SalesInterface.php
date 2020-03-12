@@ -39,5 +39,11 @@ interface SalesInterface
     /**
      * @return mixed
      */
-    public function getVentasModulo();
+    public function getAllVentasModulo();
+
+    /**
+     * @param $ss_tenant_name
+     * @return mixed
+     */
+    public function getVentasModulo($ss_tenant_name);
 }

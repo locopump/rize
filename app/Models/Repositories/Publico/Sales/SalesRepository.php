@@ -44,13 +44,27 @@ class SalesRepository implements SalesInterface
      * METODOS MIXTOS
      */
 
-    public function getVentasModulo()
+    public function getAllVentasModulo()
     {
         $ventas = Sales::select(
             'ss_tenant_name',
             DB::raw('sum(num_sales) as monto_total'),
             DB::raw('sum(num_transactions) total_ventas')
         )
+            ->groupBy('ss_tenant_name')
+            ->orderBy('ss_tenant_name', 'asc')
+        ->get();
+        return $ventas;
+    }
+
+    public function getVentasModulo($ss_tenant_name)
+    {
+        $ventas = Sales::select(
+            'ss_tenant_name',
+            DB::raw('sum(num_sales) as monto_total'),
+            DB::raw('sum(num_transactions) total_ventas')
+        )
+            ->where('ss_tenant_name', $ss_tenant_name)
             ->groupBy('ss_tenant_name')
             ->orderBy('ss_tenant_name', 'asc')
         ->get();

@@ -33,7 +33,11 @@ class SalesController extends Controller
 
     public function getVentasModulo(Request $request)
     {
-        $ventas = $this->sales->getVentasModulo();
+        $ventas = (
+        $request->route('ss_tenant_name') ?
+            $this->sales->getVentasModulo($request->route('ss_tenant_name')) :
+            $this->sales->getAllVentasModulo()
+        );
         return $ventas;
     }
 

@@ -222,7 +222,7 @@ class SalesService
         return response()->json($response, $code, $headers);
     }
 
-    public function getVentasModulo()
+    public function getVentasModulo($ss_tenant_name)
     {
         $response['status'] = 0;
         $response['message'] = '';
@@ -231,7 +231,72 @@ class SalesService
         $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
 
         try {
-            $ventas = $this->sales->getVentasModulo();
+            $ventas = $this->sales->getVentasModulo($ss_tenant_name);
+
+            if ($ventas) {
+                $code = 200;
+                $response = [
+                    'success' => true,
+                    'data' => $ventas,
+                    'message' => 'Success.',
+                    'code' => $code
+                ];
+
+            } else {
+                $code = 202;
+                $response = [
+                    'success' => false,
+                    'error' =>
+                        [
+                            'type' => 'Query',
+                            'description' => null
+                        ],
+                    'message' => 'Error detected!!',
+                    'code' => $code
+                ];
+            }
+
+        } catch (QueryException $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Query',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::critical('Listado de las Ventas por Módulo',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Code',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::alert('Listado de las Ventas por Módulo',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        }
+
+        return response()->json($response, $code, $headers);
+    }
+
+    public function getAllVentasModulo()
+    {
+        $response['status'] = 0;
+        $response['message'] = '';
+        $response['records'] = [];
+        $code = 400;
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
+
+        try {
+            $ventas = $this->sales->getAllVentasModulo();
 
             if ($ventas) {
                 $code = 200;
