@@ -51,8 +51,9 @@ class SalesController extends Controller
                     'fecha_fin' => $request->get('fecha_fin')
                 );
                 $ventas = $this->sales->getVentasFecha($rango);
+            } else {
+                $ventas = $this->sales->getVentasFecha();
             }
-            $ventas = $this->sales->getVentasFecha();
         }
         return $ventas;
     }

@@ -351,4 +351,134 @@ class AreasService
         return response()->json($response, $code, $headers);
     }
 
+    public function getAreasByGroup()
+    {
+        $response['status'] = 0;
+        $response['message'] = '';
+        $response['records'] = [];
+        $code = 400;
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
+
+        try {
+            $areas = $this->areas->getAreasByGroup();
+
+            if ($areas) {
+                $code = 200;
+                $response = [
+                    'success' => true,
+                    'data' => $areas,
+                    'message' => 'Success.',
+                    'code' => $code
+                ];
+
+            } else {
+                $code = 202;
+                $response = [
+                    'success' => false,
+                    'error' =>
+                        [
+                            'type' => 'Query',
+                            'description' => null
+                        ],
+                    'message' => 'Error detected!!',
+                    'code' => $code
+                ];
+            }
+
+        } catch (QueryException $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Query',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::critical('Listado de total de areas por grupo',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Code',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::alert('Listado de total de areas por grupo',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        }
+
+        return response()->json($response, $code, $headers);
+    }
+
+    public function getAreaByGroup(string $group_id)
+    {
+        $response['status'] = 0;
+        $response['message'] = '';
+        $response['records'] = [];
+        $code = 400;
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
+
+        try {
+            $areas = $this->areas->getAreaByGroup($group_id);
+
+            if ($areas) {
+                $code = 200;
+                $response = [
+                    'success' => true,
+                    'data' => $areas,
+                    'message' => 'Success.',
+                    'code' => $code
+                ];
+
+            } else {
+                $code = 202;
+                $response = [
+                    'success' => false,
+                    'error' =>
+                        [
+                            'type' => 'Query',
+                            'description' => null
+                        ],
+                    'message' => 'Error detected!!',
+                    'code' => $code
+                ];
+            }
+
+        } catch (QueryException $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Query',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::critical('Listado de total de areas por grupo',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Code',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::alert('Listado de total de areas por grupo',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        }
+
+        return response()->json($response, $code, $headers);
+    }
+
 }

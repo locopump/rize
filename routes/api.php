@@ -24,9 +24,11 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
             // Areas
             Route::get('areas/{id?}', 'AreasController@getAreasDetail');
             Route::delete('areas/delete/{id}', 'AreasController@deleteArea');
+            Route::get('grupo/areas/{group_id?}', 'AreasController@getAreasByGroup');
             // Counts
             Route::get('counts/{id?}', 'CountsController@getCounts');
 //            Route::delete('counts/delete/{id}', 'CountsController@deleteCount');
+            Route::post('resumen/counts', 'CountsController@getResumenCounts');
             // Likes
             Route::get('likes/{id?}', 'LikesController@getLikes');
 //            Route::delete('likes/delete/{id}', 'LikesController@deleteLike');

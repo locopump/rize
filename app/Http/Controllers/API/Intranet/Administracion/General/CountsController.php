@@ -30,4 +30,10 @@ class CountsController extends Controller
         $count = $this->counts->delete($request->route('id'));
         return $count;
     }
+
+    public function getResumenCounts(Request $request)
+    {
+        $resumen = $this->counts->getResumenCounts();
+        return $resumen;
+    }
 }

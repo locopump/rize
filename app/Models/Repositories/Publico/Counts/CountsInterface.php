@@ -35,4 +35,9 @@ interface CountsInterface
      * @return mixed
      */
     public function delete(int $id);
+
+    /**
+     * @return mixed
+     */
+    public function getResumenCounts();
 }

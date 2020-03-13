@@ -45,4 +45,15 @@ interface AreasInterface
      * @return mixed
      */
     public function getRowDetails($id);
+
+    /**
+     * @return mixed
+     */
+    public function getAreasByGroup();
+
+    /**
+     * @param string $group_id
+     * @return mixed
+     */
+    public function getAreaByGroup(string $group_id);
 }

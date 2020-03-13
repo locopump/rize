@@ -74,4 +74,29 @@ class AreasRepository implements AreasInterface
             ->get();
         return $areas;
     }
+
+    public function getAreasByGroup()
+    {
+        $areas = Areas::select(
+                'group_id',
+                DB::raw('count(id) as total_areas')
+            )
+            ->groupBy('group_id')
+            ->orderBy('group_id', 'asc')
+            ->get();
+        return $areas;
+    }
+
+    public function getAreaByGroup(string $group_id)
+    {
+        $area = Areas::select(
+            'group_id',
+            DB::raw('count(id) as total_areas')
+        )
+            ->where('group_id', $group_id)
+            ->groupBy('group_id')
+            ->orderBy('group_id', 'asc')
+            ->get();
+        return $area;
+    }
 }

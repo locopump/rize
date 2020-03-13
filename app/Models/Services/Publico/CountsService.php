@@ -221,4 +221,69 @@ class CountsService
         return response()->json($response, $code, $headers);
     }
 
+    public function getResumenCounts()
+    {
+        $response['status'] = 0;
+        $response['message'] = '';
+        $response['records'] = [];
+        $code = 400;
+        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
+
+        try {
+            $counts = $this->counts->getResumenCounts();
+
+            if ($counts) {
+                $code = 200;
+                $response = [
+                    'success' => true,
+                    'data' => $counts,
+                    'message' => 'Success.',
+                    'code' => $code
+                ];
+
+            } else {
+                $code = 202;
+                $response = [
+                    'success' => false,
+                    'error' =>
+                        [
+                            'type' => 'Query',
+                            'description' => null
+                        ],
+                    'message' => 'Error detected!!',
+                    'code' => $code
+                ];
+            }
+
+        } catch (QueryException $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Query',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::critical('Listado de Ingresos y Tránsito por fecha',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'error' =>
+                    [
+                        'type' => 'Code',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+                'code' => $code
+            ];
+            Log::alert('Listado de Ingresos y Tránsito por fecha',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        }
+
+        return response()->json($response, $code, $headers);
+    }
+
 }

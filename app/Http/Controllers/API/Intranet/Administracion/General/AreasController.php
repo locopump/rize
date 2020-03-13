@@ -41,4 +41,14 @@ class AreasController extends Controller
         return $area;
     }
 
+    public function getAreasByGroup(Request $request)
+    {
+        $grupo = (
+            $request->route('group_id') ?
+                $this->areas->getAreaByGroup($request->route('group_id')) :
+                $this->areas->getAreasByGroup()
+        );
+        return $grupo;
+    }
+
 }
