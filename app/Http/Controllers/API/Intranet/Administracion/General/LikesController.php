@@ -30,4 +30,14 @@ class LikesController extends Controller
         $like = $this->likes->delete($request->route('id'));
         return $like;
     }
+
+    public function getLikesByEmail(Request $request)
+    {
+        $likes = (
+        $request->route('email') ?
+            $this->likes->getLikesByEmail($request->route('email')) :
+            $this->likes->getLikes()
+        );
+        return $likes;
+    }
 }

@@ -35,4 +35,9 @@ interface VisitorsInterface
      * @return mixed
      */
     public function delete(int $id);
+
+    /**
+     * @return mixed
+     */
+    public function getVisitors();
 }

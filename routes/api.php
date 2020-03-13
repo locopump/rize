@@ -30,8 +30,9 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
 //            Route::delete('counts/delete/{id}', 'CountsController@deleteCount');
             Route::post('resumen/counts', 'CountsController@getResumenCounts');
             // Likes
-            Route::get('likes/{id?}', 'LikesController@getLikes');
+//            Route::get('likes/{id?}', 'LikesController@getLikes');
 //            Route::delete('likes/delete/{id}', 'LikesController@deleteLike');
+            Route::get('total-likes/{email?}', 'LikesController@getLikesByEmail');
             // Pages
             Route::get('pages/{id?}', 'PagesController@getPages');
 //            Route::delete('pages/delete/{id}', 'PagesController@deletePage');
@@ -53,6 +54,7 @@ Route::group(['prefix' => 'intranet', 'namespace' => 'API\Intranet'], function (
             // Visitors
             Route::get('visitors/{id?}', 'VisitorsController@getVisitors');
 //            Route::delete('visitors/delete/{id}', 'VisitorsController@deleteVisitor');
+            Route::get('visitors-resumen', 'VisitorsController@getResumenVisitors');
             // Visits
             Route::get('visits/{id?}', 'VisitsController@getVisits');
 //            Route::delete('visits/delete/{id}', 'VisitsController@deleteVisit');

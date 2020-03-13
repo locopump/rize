@@ -35,4 +35,15 @@ interface LikesInterface
      * @return mixed
      */
     public function delete(int $id);
+
+    /**
+     * @return mixed
+     */
+    public function getLikes();
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function getLikesByEmail(string $email);
 }

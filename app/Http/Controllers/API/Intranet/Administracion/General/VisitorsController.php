@@ -30,4 +30,10 @@ class VisitorsController extends Controller
         $visitor = $this->visitors->delete($request->route('id'));
         return $visitor;
     }
+
+    public function getResumenVisitors(Request $request)
+    {
+        $visitors = $this->visitors->getVisitors();
+        return $visitors;
+    }
 }
