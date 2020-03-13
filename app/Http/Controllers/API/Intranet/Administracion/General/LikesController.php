@@ -40,4 +40,22 @@ class LikesController extends Controller
         );
         return $likes;
     }
+
+    public function getLikesBygender(Request $request)
+    {
+        $likes = $this->likes->getLikesByGender();
+        return $likes;
+    }
+
+    public function getLikesByTenant(Request $request)
+    {
+        $likes = $this->likes->getLikesByTenant();
+        return $likes;
+    }
+
+    public function getLikesByBrand(Request $request)
+    {
+        $likes = $this->likes->getLikesByBrand();
+        return $likes;
+    }
 }

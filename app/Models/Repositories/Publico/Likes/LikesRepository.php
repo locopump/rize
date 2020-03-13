@@ -64,4 +64,47 @@ class LikesRepository implements LikesInterface
             ->get();
         return $count;
     }
+
+    public function getLikesByGender()
+    {
+        $genderLikes = DB::table('likes as l')
+            ->select(
+            'gender',
+            DB::raw('count(l.*) as marcas_con_like')
+        )
+            ->rightJoin('visitors as v', 'l.email', '=', 'v.email')
+            ->groupBy('gender')
+            ->orderBy('gender')
+            ->get();
+        return $genderLikes;
+    }
+
+    public function getLikesByTenant()
+    {
+        $tenantLikes = DB::table('tenants as t')
+            ->select(
+            't.id as locatario',
+            DB::raw('count(l.*) as total_likes')
+        )
+            ->join('pages as p', 't.brand', '=', 'p.brand')
+            ->join('likes as l', 'p.clean_name', '=', 'l.clean_name')
+            ->groupBy('t.id')
+            ->orderBy('t.id')
+            ->get();
+        return $tenantLikes;
+    }
+
+    public function getLikesByBrand()
+    {
+        $brandLikes = DB::table('pages as p')
+            ->select(
+            'p.brand as marca',
+            DB::raw('count(l.clean_name) as total_likes')
+        )
+            ->join('likes as l', 'l.clean_name', '=', 'p.clean_name')
+            ->groupBy('p.brand')
+            ->orderBy('p.brand')
+            ->get();
+        return $brandLikes;
+    }
 }

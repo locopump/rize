@@ -46,4 +46,19 @@ interface LikesInterface
      * @return mixed
      */
     public function getLikesByEmail(string $email);
+
+    /**
+     * @return mixed
+     */
+    public function getLikesByGender();
+
+    /**
+     * @return mixed
+     */
+    public function getLikesByTenant();
+
+    /**
+     * @return mixed
+     */
+    public function getLikesByBrand();
 }
